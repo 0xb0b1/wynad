@@ -1,0 +1,90 @@
+cabal-version:      3.0
+name:               wynad
+version:            0.1.0.0
+synopsis:           XMonad-inspired Wayland compositor
+description:        A tiling Wayland compositor inspired by XMonad's design philosophy.
+                    Features pure functional window/workspace management using a zipper-based
+                    StackSet, configurable via Haskell, tiling-first with floating support,
+                    and multi-monitor support. Built on wlroots via wlhs bindings.
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             Paulo Vicente
+maintainer:         vcente82@gmail.com
+category:           System
+build-type:         Simple
+extra-doc-files:    README.md
+
+common warnings
+    ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates
+                 -Wincomplete-uni-patterns -Wmissing-export-lists
+                 -Wmissing-home-modules -Wpartial-fields -Wredundant-constraints
+
+library
+    import:           warnings
+    exposed-modules:
+        Wynad
+        Wynad.Core
+        Wynad.StackSet
+        Wynad.Layout
+        Wynad.Operations
+        Wynad.ManageHook
+        Wynad.Config
+        Wynad.Wayland.Backend
+        Wynad.Wayland.Output
+        Wynad.Wayland.Surface
+        Wynad.Wayland.Input
+        Wynad.Wayland.Keyboard
+        Wynad.Wayland.Scene
+        Wynad.Wayland.Decorations
+        Wynad.Wayland.Protocols.XdgShell
+        Wynad.Wayland.Protocols.LayerShell
+    other-modules:
+        Wynad.Wayland.Types
+    build-depends:
+        base >= 4.12 && < 5,
+        containers >= 0.6,
+        mtl >= 2.2,
+        transformers >= 0.5,
+        data-default-class >= 0.1,
+        -- wlhs bindings (wlroots)
+        wlhs,
+        wlhs-bindings
+    hs-source-dirs:   src
+    default-language: Haskell2010
+    default-extensions:
+        LambdaCase
+        NamedFieldPuns
+        RecordWildCards
+        ScopedTypeVariables
+        TypeFamilies
+        GeneralizedNewtypeDeriving
+        DerivingStrategies
+        DerivingVia
+        StandaloneDeriving
+        FlexibleContexts
+        FlexibleInstances
+        MultiParamTypeClasses
+
+executable wynad
+    import:           warnings
+    main-is:          Main.hs
+    build-depends:
+        base >= 4.12 && < 5,
+        wynad
+    hs-source-dirs:   app
+    default-language: Haskell2010
+    ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+
+test-suite wynad-test
+    import:           warnings
+    type:             exitcode-stdio-1.0
+    main-is:          Main.hs
+    other-modules:
+        StackSetSpec
+    build-depends:
+        base >= 4.12 && < 5,
+        wynad,
+        hspec >= 2.7,
+        QuickCheck >= 2.13
+    hs-source-dirs:   tests
+    default-language: Haskell2010
