@@ -3,7 +3,7 @@
 An XMonad-inspired Wayland compositor built with Haskell and wlroots.
 
 
-Still a work in progress, I don't know when it will be "ready to use".
+`Still a work in progress, I don't know when it will be "ready to use".`
 
 ## Design Philosophy
 
